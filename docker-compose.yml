@@ -1,0 +1,12 @@
+version: "2"
+services: 
+  app_node:
+    container_name: "app_node"
+    image: node:6-onbuild
+    volumes: 
+      - ./:/usr/src/app
+    expose: 
+      - 8080
+    ports: 
+      - 8080:8080
+    command: ['npm', 'run', 'dev']
