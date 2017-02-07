@@ -2,9 +2,12 @@ version: "2"
 services: 
   app_node:
     container_name: "app_node"
-    image: node:6-onbuild
+    build:
+      context: .
+      dockerfile: ./dockerconf/Dockerfile-node
     volumes: 
       - ./:/usr/src/app
+      - /usr/src/app/node_modules
     expose: 
       - 3002
     ports: 
