@@ -76,7 +76,14 @@ function get(cmd) {
 }
 
 function list() {
-  return getAllNotes()
+  console.log('===============node list===============')
+  getAllNotes().map(n=>{
+    console.log('--------------------')
+    console.log(`Title: ${n.title}`)
+    console.log(`Body: ${n.body}`)
+    console.log('--------------------')
+  })
+  console.log('=======================================')
 }
 
 function add(cmd) {

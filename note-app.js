@@ -28,10 +28,10 @@ const cmd = yargs
               .command('get', 'get note', {
                 title: titleOptions
               })
-              .command('list', 'get all notes')
+              .command('list', 'print all notes')
               .help()
               .argv
-              
+
 const command = cmd._[0]
 const { title, body } = cmd
 
