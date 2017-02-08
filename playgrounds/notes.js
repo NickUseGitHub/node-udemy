@@ -5,13 +5,24 @@ const fileName = 'notes-data.js'
 function getAllNotes() {
   try {
     const notes = fs.readFileSync(`./${fileName}`, 'utf-8')
-    return notes
+    return JSON.parse(notes)
   } catch (e) {
     return []
   }
 }
 
-function writeFile(title, body) {
+function writeFile(notes) {
+  try {
+    fs.writeFileSync(`./${fileName}`, JSON.stringify(notes))
+    console.log('--------------------')
+    console.log('writeFile completed!')
+    console.log('--------------------')
+  } catch (e) {
+    throw (e)
+  }
+}
+
+function addFile(title, body) {
   const notes = getAllNotes()
   const note = { title, body }
 
@@ -21,14 +32,34 @@ function writeFile(title, body) {
   }
 
   notes.push(note)
+  writeFile(notes)
+}
 
-  try {
-    fs.writeFileSync(`./${fileName}`, JSON.stringify(notes))
-    console.log('writeFile completed!')
-    console.log('--------------------')
-  } catch (e) {
-    throw (e)
+function editFile(title, body) {
+  const notes = getAllNotes()
+  const note = { title, body }
+
+  if (_.isEmpty(notes.filter(n => n === note))) {
+    console.log('cannot edit file because note is not exist')
+    return
   }
+
+  const newNote = notes.map(n=>{
+    if (n !== note) {
+      return n
+    } else {
+      return note
+    }
+  })
+
+  writeFile(newNote)
+}
+
+function removeFile(title) {
+  const notes = getAllNotes()
+
+  const newNote = notes.filter(n=> n.title !== title)
+  writeFile(newNote)
 }
 
 function get(cmd) {
@@ -39,17 +70,19 @@ function get(cmd) {
 
 function add(cmd) {
   const {title, body} = cmd
-  writeFile(title, body)
+  addFile(title, body)
   return 'new note'
 }
 
 function edit(cmd) {
-  console.log('editNote', cmd)
+  const {title, body} = cmd
+  editFile(title, body)
   return 'update note'
 }
 
 function remove(cmd) {
-  console.log('removeNote', cmd)
+  const {title} = cmd
+  removeFile(title)
   return 'remove note'
 }
 
