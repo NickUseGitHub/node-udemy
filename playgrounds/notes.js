@@ -1,10 +1,13 @@
 const fs = require('fs')
+const path = require('path')
 const _ = require('lodash')
 const fileName = 'notes-data.js'
 
 function getAllNotes() {
+  const pathFile = path.resolve(__dirname, `./playgrounds/${fileName}`)
+
   try {
-    const notes = fs.readFileSync(`./${fileName}`, 'utf-8')
+    const notes = fs.readFileSync(pathFile, 'utf-8')
     return JSON.parse(notes)
   } catch (e) {
     return []
@@ -12,8 +15,10 @@ function getAllNotes() {
 }
 
 function writeFile(notes) {
+  const pathFile = path.resolve(__dirname, `./${fileName}`)
+
   try {
-    fs.writeFileSync(`./${fileName}`, JSON.stringify(notes))
+    fs.writeFileSync(pathFile, JSON.stringify(notes))
     console.log('--------------------')
     console.log('writeFile completed!')
     console.log('--------------------')
@@ -26,7 +31,7 @@ function addFile(title, body) {
   const notes = getAllNotes()
   const note = { title, body }
 
-  if (_.isEmpty(notes.filter(n => n.title === title))) {
+  if (!_.isEmpty(notes.filter(n => n.title === title))) {
     console.log('cannot write file because note is duplicated')
     return
   }
