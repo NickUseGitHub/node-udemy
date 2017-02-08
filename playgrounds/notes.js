@@ -4,7 +4,7 @@ const _ = require('lodash')
 const fileName = 'notes-data.js'
 
 function getAllNotes() {
-  const pathFile = path.resolve(__dirname, `./playgrounds/${fileName}`)
+  const pathFile = path.resolve(__dirname, `./${fileName}`)
 
   try {
     const notes = fs.readFileSync(pathFile, 'utf-8')
@@ -44,18 +44,20 @@ function editFile(title, body) {
   const notes = getAllNotes()
   const note = { title, body }
 
-  if (_.isEmpty(notes.filter(n => n === note))) {
+  if (_.isEmpty(notes.filter(n => n.title === note.title))) {
+    debugger
     console.log('cannot edit file because note is not exist')
     return
   }
 
   const newNote = notes.map(n=>{
-    if (n !== note) {
+    if (n.title !== note.title) {
       return n
     } else {
       return note
     }
   })
+  debugger
 
   writeFile(newNote)
 }
