@@ -75,6 +75,10 @@ function get(cmd) {
   return _.head(notes.filter(note => note.title === title))
 }
 
+function list() {
+  return getAllNotes()
+}
+
 function add(cmd) {
   const {title, body} = cmd
   addFile(title, body)
@@ -96,5 +100,6 @@ function remove(cmd) {
 module.exports = {
   add,
   edit,
+  list,
   remove
 }
