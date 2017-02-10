@@ -1,5 +1,5 @@
-const num = require('../utils/num')
+import {add} from '../utils/num'
 
 it('should add two number', () => {
-  const res = num.add(3, 5)
+  const res = add(3, 'asf')
 })
