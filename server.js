@@ -10,7 +10,7 @@ app.set('views', path.resolve(__dirname, './app/views'))
 
 app.get('/', (req, res) => {
     res.render('index.twig', {
-      name: 'nick naja'
+      name: 'nick naja eiei'
     })
 })
 
