@@ -1,16 +1,16 @@
-const express = require('express');
+import express from 'express'
 
-const app = new express();
-const port = process.env.PORT || 3002;
+const app = new express()
+const port = process.env.PORT || 3002
 
-app.get('/', function(req, res){
-    res.send("Hello world");
+app.get('/', (req, res) => {
+    res.send("Hello world")
 })
 
-app.listen(port, function(err){
+app.listen(port, (err) => {
     if (err) {
-        console.log(err);
+        console.log(err)
     }
 
-    console.log("app is now listen on port", port);
-});
+    console.log("app is now listen on port", port)
+})
