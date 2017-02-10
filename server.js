@@ -4,6 +4,8 @@ import path from 'path'
 const app = new express()
 const port = process.env.PORT || 3002
 
+app.set('view engine', 'pug')
+
 app.get('/', (req, res) => {
     res.send("Hello world")
 })
