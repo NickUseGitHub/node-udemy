@@ -15,7 +15,7 @@
     "babel-register": "^6.22.0",
     "express": "^4.14.1",
     "lodash": "^4.17.4",
-    "pug": "^2.0.0-beta11",
+    "twig": "^0.10.3",
     "yargs": "^6.6.0"
   },
   "devDependencies": {
