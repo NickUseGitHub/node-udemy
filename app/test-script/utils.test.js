@@ -1,4 +1,4 @@
-import {add, square} from '../utils/num'
+import {add, asyncMultiple, square} from '../utils/num'
 import expect from 'expect'
 
 const num1 = 3,
@@ -7,6 +7,13 @@ const num1 = 3,
 it('add two number', () => {
   const res = add(num1, num2)
   expect(res).toBeA('number')
+})
+
+it('async multiple two number', done => {
+  asyncMultiple(num1, num2, mul => {
+    expect(mul).toBe(12).toBeA('number')
+    done()
+  })
 })
 
 it('square two number', () => {
