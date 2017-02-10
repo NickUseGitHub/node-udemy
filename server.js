@@ -4,10 +4,13 @@ import path from 'path'
 const app = new express()
 const port = process.env.PORT || 3002
 
+app.set('views', path.resolve(__dirname, './app/views'))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-    res.send("Hello world")
+    res.render('index', {
+      name: 'nick'
+    })
 })
 
 app.use(express.static(path.resolve(__dirname, 'public')))
