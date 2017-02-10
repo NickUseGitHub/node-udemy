@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import Twig from 'twig'
 
+const env = process.env.NODE_ENV || 'production'
 const app = new express()
 const port = process.env.PORT || 3002
 
