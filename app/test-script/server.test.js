@@ -12,3 +12,14 @@ it('should return simple hello world', (done) => {
     })
     .end(done)
 })
+
+it('should get include user whose name is nick', (done) => {
+  requestSupertest(app)
+    .get('/users')
+    .expect(200)
+    .expect(res => {
+      expect(res.body)
+        .toInclude({name: 'nick', age: 27})
+    })
+    .end(done)
+})
