@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV || 'production'
 const app = new express()
 const port = process.env.PORT || 3002
 
-app.set('views', path.resolve(__dirname, './app/views'))
+app.set('views', path.resolve(__dirname, './views'))
 
 app.get('/', (req, res) => {
     res.render('index.twig', {
