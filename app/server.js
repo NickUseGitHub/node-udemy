@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/test', (req, res) => {
+    res.send('Hello World')
+})
+
 app.use(express.static(path.resolve(__dirname, 'public')))
 
 app.listen(port, (err) => {
@@ -23,3 +27,5 @@ app.listen(port, (err) => {
 
     console.log("app is now listen on port", port)
 })
+
+export default app
