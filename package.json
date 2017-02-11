@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "set NODE_ENV=dev && nodemon -L index.js",
-    "test": "mocha app/**/*.test.js --compilers js:babel-core/register",
+    "test": "mocha **/**/*.test.js --compilers js:babel-core/register",
     "test-watch": "nodemon --exec \"npm test\" ",
     "start": "node index.js"
   },
