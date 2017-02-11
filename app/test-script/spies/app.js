@@ -1,4 +1,4 @@
-import db from './db'
+const db = require('./db')
 
 export function signUp(email, password) {
   //check user exist
