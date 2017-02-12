@@ -21,3 +21,5 @@ services:
     build:
       context: .
       dockerfile: ./dockerconf/Dockerfile-mongo
+    ports:
+      - 27017:27017

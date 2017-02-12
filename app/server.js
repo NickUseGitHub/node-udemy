@@ -7,8 +7,10 @@ const env = process.env.NODE_ENV || 'production'
 const app = new express()
 const port = process.env.PORT || 3002
 const dbPort = process.env.DB_PORT || 27017
-const dbUrl = env === 'production'? `mongodb:${dbPort}//localhost/myappdatabase` : `mongo:${dbPort}//mongo`
+const dbUrl = env === 'production'? `mongodb://localhost/myappdatabase` : `mongodb://mongo:${dbPort}/test`
 
+console.log('dbUrl', dbUrl)
+console.log('dbPort', dbPort)
 mongoose.connect(dbUrl)
 
 app.set('views', path.resolve(__dirname, './views'))
