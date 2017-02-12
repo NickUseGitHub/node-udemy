@@ -7,7 +7,8 @@ const env = process.env.NODE_ENV || 'production'
 const app = new express()
 const port = process.env.PORT || 3002
 const dbPort = process.env.DB_PORT || 27017
-const dbUrl = env === 'production'? `mongodb://localhost/myappdatabase` : `mongodb://mongo:${dbPort}/test`
+const dbName = 'nodeUdemy'
+const dbUrl = env === 'production'? `mongodb://localhost/${dbName}` : `mongodb://mongo:${dbPort}/${dbName}`
 
 console.log('dbUrl', dbUrl)
 console.log('dbPort', dbPort)
