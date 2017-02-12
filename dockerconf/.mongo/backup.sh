@@ -1,7 +1,7 @@
 #!/bin/bash
-parent_path=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
+# parent_path=$( cd "$(dirname "${BASH_SOURCE}")" ; pwd -P )
 
-cd "$parent_path"
+# cd "$parent_path"
 
 backupFileName=db.tar.gz
 
