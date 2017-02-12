@@ -24,8 +24,12 @@ const kittySchema = mongoose.Schema({
     name: String
 })
 const Kitten = mongoose.model('Kitten', kittySchema)
-const silence = new Kitten({ name: 'Silence' })
-console.log('Hello Kitty', silence.name)
+const fluffy = new Kitten({ name: 'Silence' })
+fluffy.save(function (err, fluffy) {
+  if (err) return console.error(err)
+  console.log('--- kitten save!! ---')
+})
+console.log('Hello Kitty', fluffy.name)
 
 app.set('views', path.resolve(__dirname, './views'))
 
