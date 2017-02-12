@@ -19,7 +19,6 @@ services:
   app_mongo:
     container_name: "app_mongo"
     build:
-      context: .
-      dockerfile: ./dockerconf/Dockerfile-mongo
+      context: ./dockerconf/.mongo
     ports:
       - 27017:27017

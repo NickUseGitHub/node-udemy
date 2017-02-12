@@ -10,8 +10,6 @@ const dbPort = process.env.DB_PORT || 27017
 const dbName = 'nodeUdemy'
 const dbUrl = env === 'production'? `mongodb://localhost/${dbName}` : `mongodb://mongo:${dbPort}/${dbName}`
 
-console.log('dbUrl', dbUrl)
-console.log('dbPort', dbPort)
 mongoose.connect(dbUrl)
 
 app.set('views', path.resolve(__dirname, './views'))
