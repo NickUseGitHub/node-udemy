@@ -8,8 +8,16 @@ services:
     volumes: 
       - ./:/usr/src/app
       - /usr/src/app/node_modules
+    links:
+      - app_mongo:mongo
     expose: 
       - 3002
     ports: 
       - 80:3002
     command: ['npm', 'run', 'dev']
+
+  app_mongo:
+    container_name: "app_mongo"
+    build:
+      context: .
+      dockerfile: ./dockerconf/Dockerfile-mongo
