@@ -1,10 +1,15 @@
 import express from 'express'
 import path from 'path'
 import Twig from 'twig'
+import mongoose from 'mongoose'
 
 const env = process.env.NODE_ENV || 'production'
 const app = new express()
 const port = process.env.PORT || 3002
+const dbPort = process.env.DB_PORT || 27017
+const dbUrl = env === 'production'? `mongodb:${dbPort}//localhost/myappdatabase` : `mongo:${dbPort}//mongo`
+
+mongoose.connect(dbUrl)
 
 app.set('views', path.resolve(__dirname, './views'))
 
