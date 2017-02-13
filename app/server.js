@@ -11,6 +11,7 @@ const dbName = 'nodeUdemy'
 const dbUrl = env === 'production'? `mongodb://localhost/${dbName}` : `mongodb://mongo:${dbPort}/${dbName}`
 
 //connect mongo
+mongoose.Promise = global.Promise
 mongoose.connect(dbUrl)
 mongoose.connection.on('connected', () => {
   console.log('%s MongoDB connection established!', "Yes, ")
