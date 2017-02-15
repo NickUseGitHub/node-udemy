@@ -3,6 +3,7 @@ import path from 'path'
 import Twig from 'twig'
 import mongoose from 'mongoose'
 import routes from './routes'
+import bodyParser from 'body-parser'
 
 const env = process.env.NODE_ENV || 'production'
 const app = new express()
@@ -24,7 +25,9 @@ mongoose.connection.on('error', () => {
 
 app.set('views', path.resolve(__dirname, './views'))
 
-//routes app
+app.use(bodyParser.json())
+
+//routes app 
 routes.map(route => app.use(route))
 
 app.use(express.static(path.resolve(__dirname, 'public')))
