@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import Twig from 'twig'
 import mongoose from 'mongoose'
+import routes from './routes'
 
 const env = process.env.NODE_ENV || 'production'
 const app = new express()
@@ -21,42 +22,10 @@ mongoose.connection.on('error', () => {
   process.exit()
 })
 
-const kittySchema = mongoose.Schema({
-    name: String
-})
-const Kitten = mongoose.model('Kitten', kittySchema)
-const fluffy = new Kitten({ name: 'Silence' })
-fluffy.save(function (err, fluffy) {
-  if (err) return console.error(err)
-  console.log('--- kitten save!! ---')
-})
-console.log('Hello Kitty', fluffy.name)
-
 app.set('views', path.resolve(__dirname, './views'))
 
-app.get('/', (req, res) => {
-  res.render('index.twig', {
-    name: 'nick naja eiei'
-  })
-})
-
-app.get('/test', (req, res) => {
-  res.send('Hello World')
-})
-
-app.get('/users', (req, res) => {
-  
-  const users = [
-    {
-      name: 'nick',
-      age: 27
-    }
-  ]
-
-  res.status(200)
-    .json(users)
-
-})
+//routes app
+routes.map(route => app.use(route))
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 

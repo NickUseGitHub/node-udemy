@@ -22,4 +22,3 @@ describe('Utils', () => {
     expect(res).toBeA('number')
   })
 })
-
