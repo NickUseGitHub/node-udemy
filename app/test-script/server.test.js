@@ -1,26 +1,44 @@
 import requestSupertest from 'supertest'
 import app from '../server'
 import expect from 'expect'
+import Todo from './../model/todo'
+
+beforeEach(done => {
+  Todo.remove({})
+    .then(() => done())
+    .catch(err => console.log('beforeEach Todo -- ', err))
+})
 
 describe('Server Test', () => {
-  it('should return simple hello world', (done) => {
-    requestSupertest(app)
-      .get('/test')
-      .expect(200)
-      .expect(res => {
-        expect(res.text).toBe('Hello World').toBeA('string')
-      })
-      .end(done)
+  
+  const todoObj = {detail: "Yeahhh ha"}
+
+  describe('DB test', () => {
+    
+    it('should insert todo in mongo', done => {
+      requestSupertest(app)
+        .put('/todo')
+        .send(todoObj)
+        .expect(200)
+        .expect(res => {
+          console.log('res.body', res.body)
+          expect(res.body).toBeA('object')
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          Todo.find({detail: todoObj.detail})
+            .then(todos => {
+              expect(todos.length).toBe(1)
+              expect(todos[0].detail).toBe(todoObj.detail)
+              done()
+            })
+            .catch(e => done(e))
+
+        })
+    })
   })
 
-  it('should get include user whose name is nick', (done) => {
-    requestSupertest(app)
-      .get('/users')
-      .expect(200)
-      .expect(res => {
-        expect(res.body)
-          .toInclude({name: 'nick', age: 27})
-      })
-      .end(done)
-  })
 })

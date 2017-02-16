@@ -3,9 +3,9 @@ import mongoose from 'mongoose'
 const env = process.env.NODE_ENV || 'production'
 const dbPort = process.env.DB_PORT || 27017
 const dbName = 'nodeUdemy'
-const dbUrl = env === 'production'? `mongodb://localhost/${dbName}` : `mongodb://mongo:${dbPort}/${dbName}`
+const dbUrl = env !== 'production'? `mongodb://localhost/${dbName}` : `mongodb://mongo:${dbPort}/${dbName}`
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 mongoose.connect(dbUrl)
 
 mongoose.connection.on('connected', () => {
