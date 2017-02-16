@@ -9,9 +9,10 @@ const port = process.env.PORT || 3002
 app.set('views', path.resolve(__dirname, './app/views'))
 
 app.get('/', (req, res) => {
-    res.render('index.twig', {
-      name: 'nick naja eiei'
-    })
+    res.json({env, port})
+    // res.render('index.twig', {
+    //   name: 'nick naja eiei'
+    // })
 })
 
 app.use(express.static(path.resolve(__dirname, 'public')))
