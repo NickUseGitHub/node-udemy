@@ -21,7 +21,6 @@ describe('Server Test', () => {
         .send(todoObj)
         .expect(200)
         .expect(res => {
-          console.log('res.body', res.body)
           expect(res.body).toBeA('object')
         })
         .end((err, res) => {
