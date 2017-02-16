@@ -12,7 +12,7 @@ route.get('/todo', (req, res) => {
 route.get('/todo/:todoId', (req, res) => {
   const {todoId} = req.params
   Todo.findById(todoId)
-    .then(todos => res.json(todos))
+    .then(todo => res.json({msg: 'ok', todo}))
     .catch(e => res.status(400).send(e))
 })
 
