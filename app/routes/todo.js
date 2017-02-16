@@ -5,7 +5,7 @@ const route = Router()
 
 route.get('/todo', (req, res) => {
   Todo.find()
-    .then(todos => res.json(todos))
+    .then(todos => res.json({msg:'success', todos}))
     .catch(e => res.status(400).send(e))
 })
 
