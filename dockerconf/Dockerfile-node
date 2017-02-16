@@ -2,5 +2,3 @@ FROM node:6-onbuild
 
 WORKDIR /usr/src/app
 RUN npm install
-
-CMD ['npm', 'run', 'test']
