@@ -3,15 +3,17 @@ import path from 'path'
 import Twig from 'twig'
 import routes from './routes'
 import bodyParser from 'body-parser'
+import middlewares from './middlewares'
 
 import './db/mongoose'
 
 const app = new express()
 const port = process.env.PORT || 3002
 
-app.set('views', path.resolve(__dirname, './views'))
-
+middlewares.map(md => app.use(md))
 app.use(bodyParser.json())
+
+app.set('views', path.resolve(__dirname, './views'))
 
 //routes app 
 routes.map(route => app.use(route))
