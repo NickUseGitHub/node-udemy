@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-// import routes from './routes'
+import routes from './routes'
 import middlewares from './middlewares'
 
 // import './config'
@@ -14,7 +14,7 @@ middlewares.map(md => app.use(md))
 app.use(bodyParser.json())
 
 //routes app 
-// routes.map(route => app.use(route))
+routes.map(route => app.use(route))
 app.use(express.static(path.resolve(__dirname, './../public')))
 
 app.listen(process.env.PORT, (err) => {
