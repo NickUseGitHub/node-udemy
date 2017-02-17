@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import middlewares from './middlewares'
 
 import './config'
-import './db/mongoose'
+// import './db/mongoose'
 
 const app = new express()
 
