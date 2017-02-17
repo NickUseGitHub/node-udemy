@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import Todo from '../model/todo'
+import {Todo} from '../model'
 import { ObjectID } from 'mongodb'
 
 const route = Router()
