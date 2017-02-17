@@ -25,12 +25,11 @@ beforeEach(done => {
 })
 
 describe('Server Test', () => {
-  
-  describe('DB test', () => {
-    
-    describe('--- TODOS ---', () => {
+
+  describe('----- TODOS -----', () => {
+    describe('-- Insert --', () => {
       it('PUT /todo -- should insert todo in mongo', done => {
-        const todoInsert = {detail: 'Yo sarbbb'}
+        const todoInsert = { detail: 'Yo sarbbb' }
 
         requestSupertest(app)
           .put('/todo')
@@ -44,7 +43,7 @@ describe('Server Test', () => {
               return done(err)
             }
 
-            Todo.find({detail: todoInsert.detail})
+            Todo.find({ detail: todoInsert.detail })
               .then(td => {
                 expect(td.length).toBe(1)
                 expect(td[0].detail).toBe(todoInsert.detail)
@@ -55,29 +54,37 @@ describe('Server Test', () => {
           })
       })
 
-      it('GET /todo/todoId -- it should get data by id', done => {
+      it('PUT /todo -- should not insert when invalid todo', done => {
         requestSupertest(app)
-          .get(`/todo/${tempTodos[0]._id}`)
-          .expect(200)
+          .put('/todo')
+          .send({})
+          .expect(400)
           .expect(res => {
+            expect(res.body).toBeA('object')
           })
-          .end((err, res) => {
-            if (err) {
-              return done(err)
-            }
-
-            const {todo} = res.body
-            Todo.findById(todo._id)
-              .then(td => {
-                expect(td._id).toEqual(tempTodos[0]._id)
-                done()
-              })
-              .catch(e => done(e))
-          })
+          .end(done)
       })
-
     })
 
-  })
+    it('GET /todo/todoId -- it should get data by id', done => {
+      requestSupertest(app)
+        .get(`/todo/${tempTodos[0]._id}`)
+        .expect(200)
+        .expect(res => {
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
 
+          const {todo} = res.body
+          Todo.findById(todo._id)
+            .then(td => {
+              expect(td._id).toEqual(tempTodos[0]._id)
+              done()
+            })
+            .catch(e => done(e))
+        })
+    })
+  })
 })
