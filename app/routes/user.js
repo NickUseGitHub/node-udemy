@@ -6,12 +6,10 @@ const route = Router()
 
 function validateUserIdMiddleWare(req, res, next) {
   if (!req.params.userId) {
-    console.log('what')
     next()
     return
   }
 
-  console.log('the fuck')
   if (!ObjectID.isValid(req.params.userId)) {
     res.status(400).send('UserId is not valid')
     return
