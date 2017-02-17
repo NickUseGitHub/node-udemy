@@ -1,6 +1,6 @@
 import {Router} from 'express'
 
-const route = new Router()
+const route = Router()
 
 route.get('/', (req, res) => {
   res.send('Hello this is nick-node-udemy app ^ ^')
