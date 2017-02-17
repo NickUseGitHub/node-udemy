@@ -1,17 +1,17 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-// import routes from './routes'
-// import middlewares from './middlewares'
+import routes from './routes'
+import middlewares from './middlewares'
 
-// import './config'
+import './config'
 // import './db/mongoose'
 
 const app = new express()
 
 //middlewares
-// middlewares.map(md => app.use(md))
-// app.use(bodyParser.json())
+middlewares.map(md => app.use(md))
+app.use(bodyParser.json())
 
 //routes app 
 // routes.map(route => app.use(route))
