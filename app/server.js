@@ -4,7 +4,7 @@ import bodyParser from 'body-parser'
 import routes from './routes'
 import middlewares from './middlewares'
 
-import './config'
+// import './config'
 // import './db/mongoose'
 
 const app = new express()
