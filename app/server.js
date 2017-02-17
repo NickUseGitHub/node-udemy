@@ -1,7 +1,7 @@
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
-import routes from './routes'
+// import routes from './routes'
 // import middlewares from './middlewares'
 
 // import './config'
