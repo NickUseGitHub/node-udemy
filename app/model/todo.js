@@ -1,6 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
 
-const dbName = 'Todo'
+const documentName = 'Todo'
 const schema = new Schema({
   detail: {
     type: String,
@@ -17,4 +17,4 @@ const schema = new Schema({
   }
 })
 
-export default mongoose.model(dbName, schema)
+export default mongoose.model(documentName, schema)
