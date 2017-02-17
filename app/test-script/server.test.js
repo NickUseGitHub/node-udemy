@@ -35,13 +35,12 @@ describe('Server Test', () => {
           .put('/todo')
           .send(todoInsert)
           .expect(200)
-          .expect(res => {
-            expect(res.body).toBeA('object')
-          })
           .end((err, res) => {
             if (err) {
               return done(err)
             }
+
+            expect(res.body).toBeA('object')
 
             Todo.find({ detail: todoInsert.detail })
               .then(td => {
@@ -59,10 +58,10 @@ describe('Server Test', () => {
           .put('/todo')
           .send({})
           .expect(400)
-          .expect(res => {
+          .end((err, res) => {
             expect(res.body).toBeA('object')
+            done()
           })
-          .end(done)
       })
     })
 
@@ -90,8 +89,6 @@ describe('Server Test', () => {
         requestSupertest(app)
           .get(`/todo/${tempTodos[0]._id}`)
           .expect(200)
-          .expect(res => {
-          })
           .end((err, res) => {
             if (err) {
               return done(err)
@@ -104,6 +101,36 @@ describe('Server Test', () => {
                 done()
               })
               .catch(e => done(e))
+          })
+      })
+    })
+
+    describe('-- Update --', () => {
+      it('POST /todo -- it should update', done => {
+        const todoForUpdate = Object.assign({}, tempTodos[0])
+        const {_id} = todoForUpdate
+        delete(todoForUpdate._id)
+        todoForUpdate.detail = 'test new update'
+
+        console.log('todoForUpdate', todoForUpdate)
+
+        requestSupertest(app)
+          .post(`/todo/${_id}`)
+          .send({todo: todoForUpdate})
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+
+            expect(res.body)
+              .toContainKeys(['msg', 'todo'])
+
+            const {todo} = res.body
+            expect(todo.detail)
+              .toNotEqual(tempTodos[0].detail)
+
+            done()
           })
       })
     })

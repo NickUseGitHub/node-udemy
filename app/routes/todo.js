@@ -35,10 +35,10 @@ route.post('/todo/:todoId', (req, res) => {
   const reqTodo = req.body.todo
   const {todoId} = req.params
   Todo.update({_id:todoId}, reqTodo, (err, raw) => {
-    if (raw) {
-      res.status(400).send(raw)
+    if (err) {
+      res.status(400).send(err)
     } else {
-      res.send({msg:'sucess', reqTodo})
+      res.send({msg:'sucess', todo: reqTodo})
     }
   })
 })
