@@ -32,7 +32,17 @@ const schema = new Schema({
   },
   lastname: {
     type: String,
-  }
+  },
+  tokens: [{
+    access: {
+      type: String,
+      required: true
+    },
+    token: {
+      type: String,
+      required: true
+    }
+  }]
 })
 
 export default mongoose.model(documentName, schema)
