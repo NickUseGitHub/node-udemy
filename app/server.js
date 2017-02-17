@@ -10,7 +10,7 @@ import bodyParser from 'body-parser'
 const app = new express()
 
 //middlewares
-middlewares.map(md => app.use(md))
+// middlewares.map(md => app.use(md))
 app.use(bodyParser.json())
 
 //routes app 
