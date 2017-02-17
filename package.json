@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "export NODE_ENV=development || set \"NODE_ENV=development\" && node index.js",
-    "test": "export NODE_ENV=test || set \"NODE_ENV=test\" && mocha app/**/*.test.js --compilers js:babel-core/register",
+    "test": "export NODE_ENV=test || set \"NODE_ENV=test\" && mocha app/**/**/*.test.js --compilers js:babel-core/register",
     "start": "node index.js",
-    "docker": "nodemon -L --exec \"npm run dev\" "
+    "docker": "nodemon -L --exec \"npm run test\" "
   },
   "keywords": [],
   "author": "",

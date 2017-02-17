@@ -1,8 +1,8 @@
 import requestSupertest from 'supertest'
-import app from '../server'
+import app from './../../server'
 import expect from 'expect'
 import { ObjectID } from 'mongodb'
-import Todo from './../model/todo'
+import {Todo} from './../../model'
 
 const tempTodos = [
   {
@@ -59,6 +59,10 @@ describe('Server Test', () => {
           .send({})
           .expect(400)
           .end((err, res) => {
+            if (err) {
+              done(err)
+            }
+            
             expect(res.body).toBeA('object')
             done()
           })
