@@ -1,6 +1,5 @@
 import express from 'express'
 import path from 'path'
-import Twig from 'twig'
 import routes from './routes'
 import bodyParser from 'body-parser'
 import middlewares from './middlewares'
@@ -14,8 +13,6 @@ const app = new express()
 middlewares.map(md => app.use(md))
 app.use(bodyParser.json())
 
-app.set('views', path.resolve(__dirname, './views'))
-
 //routes app 
 routes.map(route => app.use(route))
 app.use(express.static(path.resolve(__dirname, 'public')))
@@ -27,5 +24,4 @@ app.listen(process.env.PORT, (err) => {
     console.log("app is now listen on port", process.env.PORT)
   }
 })
-
 export default app
