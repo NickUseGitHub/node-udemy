@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "export NODE_ENV=development || set \"NODE_ENV=development\" && nodemon -L index.js",
+    "dev": "export NODE_ENV=development || set \"NODE_ENV=development\" && node index.js",
     "test": "export NODE_ENV=test || set \"NODE_ENV=test\" && mocha app/**/*.test.js --compilers js:babel-core/register",
-    "test-watch": "nodemon -L --exec \"npm test\" ",
-    "start": "node index.js"
+    "start": "node index.js",
+    "docker": "nodemon -L --exec \"npm run dev\" "
   },
   "keywords": [],
   "author": "",
