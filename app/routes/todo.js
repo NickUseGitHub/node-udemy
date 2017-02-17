@@ -26,7 +26,7 @@ route.put('/todo', (req, res) => {
       res.status(400)
         .send(err)
     } else {
-      res.json(td)
+      res.json({msg: 'success', todo:td})
     }
   })
 
@@ -39,7 +39,7 @@ route.post('/todo/:todoId', (req, res) => {
     if (err) {
       res.status(400).send(err)
     } else {
-      res.send({msg:'sucess', todo: reqTodo})
+      res.json({msg:'sucess', todo: reqTodo})
     }
   })
 })

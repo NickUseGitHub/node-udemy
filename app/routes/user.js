@@ -6,11 +6,15 @@ const route = Router()
 
 function validateUserIdMiddleWare(req, res, next) {
   if (!req.params.userId) {
+    console.log('what')
     next()
+    return
   }
 
+  console.log('the fuck')
   if (!ObjectID.isValid(req.params.userId)) {
     res.status(400).send('UserId is not valid')
+    return
   }
 
   next()
@@ -30,19 +34,20 @@ route.get('/user/:userId', (req, res) => {
 
 route.get('/user', (req, res) => {
   User.find()
-    .then(users => res.send({msg: 'success', users}))
+    .then(users => res.json({msg: 'success', users}))
     .catch(e => res.status(400).send(e))
 })
 
 route.put('/user', (req, res) => {
-  const userReq = req.body.user
-  const user = new User(userReq)
+  const user = new User(req.body)
+
   user.save((err, us) => {
     if (err) {
-      res.status(400).send(err)
+      res.status(400)
+        .send(err)
+    } else {
+      res.json({msg: 'success', user:us})
     }
-
-    res.send({msg: 'success', user: us})
   })
 })
 
