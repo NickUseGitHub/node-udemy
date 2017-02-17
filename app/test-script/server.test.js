@@ -66,25 +66,47 @@ describe('Server Test', () => {
       })
     })
 
-    it('GET /todo/todoId -- it should get data by id', done => {
-      requestSupertest(app)
-        .get(`/todo/${tempTodos[0]._id}`)
-        .expect(200)
-        .expect(res => {
-        })
-        .end((err, res) => {
-          if (err) {
-            return done(err)
-          }
+    describe('-- Fetch --', () => {
+      it('GET /todo -- it should get all todos', done => {
+        requestSupertest(app)
+          .get('/todo')
+          .expect(200)
+          .end((err, res)=>{
+            if (err) {
+              return done(err)
+            }
 
-          const {todo} = res.body
-          Todo.findById(todo._id)
-            .then(td => {
-              expect(td._id).toEqual(tempTodos[0]._id)
-              done()
-            })
-            .catch(e => done(e))
-        })
+            expect(res.body)
+              .toContainKey('todos')
+            
+            expect(res.body.todos)
+              .toBeA('array')
+
+            done()
+          })
+      })
+
+      it('GET /todo/todoId -- it should get data by id', done => {
+        requestSupertest(app)
+          .get(`/todo/${tempTodos[0]._id}`)
+          .expect(200)
+          .expect(res => {
+          })
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+
+            const {todo} = res.body
+            Todo.findById(todo._id)
+              .then(td => {
+                expect(td._id).toEqual(tempTodos[0]._id)
+                done()
+              })
+              .catch(e => done(e))
+          })
+      })
     })
+
   })
 })
