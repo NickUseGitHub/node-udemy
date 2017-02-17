@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import Todo from '../model/todo'
+import { ObjectID } from 'mongodb'
 
 const route = Router()
 
@@ -45,11 +46,20 @@ route.post('/todo/:todoId', (req, res) => {
 
 route.delete('/todo/:todoId', (req, res) => {
   const {todoId} = req.params
+  
+  if (!ObjectID.isValid(todoId)) {
+    res.status(400).send('This Id is not valid.')
+  }
+
   Todo.findOneAndRemove({_id: todoId}, (err, todo) => {
     if (err) {
       res.status(400).send(err)
+    }else if (!todo) {
+      res.status(400).send('This Id is not valid.')
+
+    }else {
+      res.json({msg: 'success', todo})
     }
-    res.json({msg: 'success', todo})
   })
 })
 

@@ -112,8 +112,6 @@ describe('Server Test', () => {
         delete(todoForUpdate._id)
         todoForUpdate.detail = 'test new update'
 
-        console.log('todoForUpdate', todoForUpdate)
-
         requestSupertest(app)
           .post(`/todo/${_id}`)
           .send({todo: todoForUpdate})
@@ -133,6 +131,53 @@ describe('Server Test', () => {
             done()
           })
       })
+    })
+
+    describe('-- Delete --', () => {
+      it('DELETE /todo -- it should update', done => {
+        const todoForDelete = Object.assign({}, tempTodos[0])
+        const {_id} = todoForDelete
+
+        requestSupertest(app)
+          .delete(`/todo/${_id}`)
+          .expect(200)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+
+            expect(res.body)
+              .toContainKeys(['msg', 'todo'])
+            
+            expect(res.body.todo._id)
+              .toEqual(todoForDelete._id)
+
+            Todo.find().then(td => {
+              expect(td.length).toBe(1)
+              done()
+            })
+            .catch(e => done(e))
+          })
+      })
+
+      it('DELETE /todo -- it should NOT be delete', done => {
+        const randId = 'wer32klae2qe'
+        requestSupertest(app)
+          .delete(`/todo/${randId}`)
+          .send()
+          .expect(400)
+          .end((err, res) => {
+            if (err) {
+              return done(err)
+            }
+
+            expect(res.text)
+              .toBeA('string')
+            done()
+          })
+
+      })
+
     })
 
   })
