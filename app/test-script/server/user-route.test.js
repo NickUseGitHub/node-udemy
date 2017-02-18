@@ -46,6 +46,7 @@ beforeEach(done => {
 })
 
 describe('----- Route:USER -----', () => {
+
   describe('-- Insert --', () => {
     it('should insert user', done => {
       requestSupertest(app)
@@ -70,6 +71,7 @@ describe('----- Route:USER -----', () => {
         })
     })
   })
+
   describe('-- Fetch --', done => {
     it('it should get all users', done => {
       requestSupertest(app)
@@ -118,6 +120,7 @@ describe('----- Route:USER -----', () => {
         })
     })
   })
+
   describe('-- Update --', () => {
 
     it('it should update user', done => {
@@ -147,5 +150,32 @@ describe('----- Route:USER -----', () => {
     })
 
   })
-  describe('-- Delete --', done => { })
+
+  describe('-- Delete --', done => {
+    it('it should delete user', done => {
+      requestSupertest(app)
+        .delete(`/user/${tempUsers[0]._id}`)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          expect(res.body)
+            .toContainKeys(['msg', 'user'])
+
+          const {user} = res.body
+          expect(user._id).toEqual(tempUsers[0]._id)
+
+          User.find()
+            .then(users => {
+              expect(users.length).toBe(1)
+              done()
+            })
+            .catch(e => done(e))
+
+        })
+    })
+  })
+
 })
