@@ -22,7 +22,7 @@ function validateUserIdMiddleWare(req, res, next) {
 route.use(validateUserIdMiddleWare)
 
 route.get('/user/:userId', (req, res) => {
-  const userId = req.params
+  const {userId} = req.params
 
   User.findById(userId)
     .then(user => res.json({msg: 'success', user}))
