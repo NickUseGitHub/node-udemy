@@ -39,14 +39,14 @@ route.get('/user', (req, res) => {
 route.put('/user', (req, res) => {
   const user = new User(req.body)
 
-  user.save((err, us) => {
-    if (err) {
-      res.status(400)
-        .send(err)
-    } else {
-      res.json({msg: 'success', user:us})
-    }
-  })
+  user.save(() => {
+      return user.generateAuthToken()
+    })
+    .then(token => {
+      res.header('app-auth', token)
+        .send(user)
+    })
+    .catch(e => res.status(400).send(e))
 })
 
 route.post('/user/:userId', (req, res) => {
