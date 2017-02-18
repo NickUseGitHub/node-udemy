@@ -23,7 +23,7 @@ const tempUsers = [
   }
 ]
 
-const userForAddOrUpdate = {
+const userForAdd = {
   _id: new ObjectID(),
   username: 'cbradleya',
   password: 'cISB0s9r',
@@ -31,6 +31,10 @@ const userForAddOrUpdate = {
   name: 'Christine',
   lastname: 'Bradley'
 }
+
+const userForUpdate = Object.assign({}, tempUsers[0])
+userForUpdate.name = 'Hello'
+userForUpdate.lastname = 'World'
 
 beforeEach(done => {
   User.remove({})
@@ -45,25 +49,25 @@ describe('----- Route:USER -----', () => {
   describe('-- Insert --', () => {
     it('should insert user', done => {
       requestSupertest(app)
-      .put('/user')
-      .send(userForAddOrUpdate)
-      .expect(200)
-      .end((err, res) => {
-        if (err) {
-          return done(err)
-        }
-        
-        expect(res.body)
-          .toContainKeys(['msg', 'user'])
+        .put('/user')
+        .send(userForAdd)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
 
-        const {user} = res.body
-        User.findById(user._id)
-          .then(us => {
-            expect(us._id).toEqual(user._id)
-            done()
-          })
-          .catch(e => done(e))
-      })
+          expect(res.body)
+            .toContainKeys(['msg', 'user'])
+
+          const {user} = res.body
+          User.findById(user._id)
+            .then(us => {
+              expect(us._id).toEqual(user._id)
+              done()
+            })
+            .catch(e => done(e))
+        })
     })
   })
   describe('-- Fetch --', done => {
@@ -94,7 +98,7 @@ describe('----- Route:USER -----', () => {
           if (err) {
             return done(err)
           }
-          
+
           expect(res.body)
             .toContainKeys(['msg', 'user'])
 
@@ -114,6 +118,34 @@ describe('----- Route:USER -----', () => {
         })
     })
   })
-  describe('-- Update --', done => { })
+  describe('-- Update --', () => {
+
+    it('it should update user', done => {
+      requestSupertest(app)
+        .post(`/user/${userForUpdate._id}`)
+        .send({user: userForUpdate})
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          expect(res.body)
+            .toContainKeys(['msg', 'user'])
+
+          const {user} = res.body
+          expect(user._id).toEqual(userForUpdate._id)
+
+          expect(user.name).toEqual(userForUpdate.name)
+          expect(user.lastname).toEqual(userForUpdate.lastname)
+
+          expect(user.name).toNotEqual(tempUsers[0].name)
+          expect(user.lastname).toNotEqual(tempUsers[0].lastname)
+
+          done()
+        })
+    })
+
+  })
   describe('-- Delete --', done => { })
 })
