@@ -13,7 +13,6 @@ const schema = new Schema({
   },
   password: {
     type: String,
-    unique: true,
     required: true,
     trim: true,
   },
@@ -60,7 +59,7 @@ schema.methods.generateAuthToken = function() {
   const token = jwt.sign({_id: user._id.toString(), access}, 'key').toString()
 
   user.tokens.push({access, token})
-  user.save()
+  return user.save()
     .then(() => {
       return token
     })

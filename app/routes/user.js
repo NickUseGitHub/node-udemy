@@ -39,8 +39,9 @@ route.get('/user', (req, res) => {
 route.put('/user', (req, res) => {
   const user = new User(req.body)
 
-  user.save(() => {
-      return user.generateAuthToken()
+  user.save()
+    .then(us => {
+      return us.generateAuthToken()
     })
     .then(token => {
       res.header('app-auth', token)
