@@ -70,6 +70,22 @@ describe('----- Route:USER -----', () => {
             .catch(e => done(e))
         })
     })
+    it('it should not insert invalid email', done => {
+      const userInvalidForAdd = Object.assign({}, userForAdd, {email: 'adsfdasfas'})
+      
+      requestSupertest(app)
+        .put('/user')
+        .send(userInvalidForAdd)
+        .expect(400)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          expect(res.text).toBeA('string')
+          done()
+        })
+    })
   })
 
   describe('-- Fetch --', done => {
