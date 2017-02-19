@@ -3,47 +3,13 @@ import requestSupertest from 'supertest'
 import { ObjectID } from 'mongodb'
 import app from './../../server'
 import { User } from './../../model'
-
-const tempUsers = [
-  {
-    _id: new ObjectID(),
-    username: 'cnichols0',
-    password: 'K0ugFfUHW',
-    email: 'cnichols0@netlog.com',
-    name: 'Cynthia',
-    lastname: 'Nichols'
-  },
-  {
-    _id: new ObjectID(),
-    username: 'dchavez1',
-    password: 'IMkxin',
-    email: 'dchavez1@tinypic.com',
-    name: 'David',
-    lastname: 'Chavez'
-  }
-]
-
-const userForAdd = {
-  _id: new ObjectID(),
-  username: 'cbradleya',
-  password: 'cISB0s9r',
-  email: 'cbradleya@fda.gov',
-  name: 'Christine',
-  lastname: 'Bradley'
-}
+import {tempUsers, populateDatas, userForAdd} from './seed/user'
 
 const userForUpdate = Object.assign({}, tempUsers[0])
 userForUpdate.name = 'Hello'
 userForUpdate.lastname = 'World'
 
-beforeEach(done => {
-  User.remove({})
-    .then(() => {
-      return User.insertMany(tempUsers)
-    })
-    .then(() => done())
-    .catch(e => console.log('beforeEach User -- ', err))
-})
+beforeEach(populateDatas)
 
 describe('----- Route:USER -----', () => {
 
@@ -59,12 +25,12 @@ describe('----- Route:USER -----', () => {
           }
 
           expect(res.body)
-            .toContainKeys(['msg', 'user'])
+            .toContainKeys(['_id', 'email'])
 
-          const {user} = res.body
-          User.findById(user._id)
+          const {_id} = res.body
+          User.findById(_id)
             .then(us => {
-              expect(us._id).toEqual(user._id)
+              expect(us._id).toEqual(_id)
               done()
             })
             .catch(e => done(e))
