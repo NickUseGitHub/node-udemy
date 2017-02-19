@@ -2,6 +2,7 @@ import mongoose, {Schema} from 'mongoose'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
+import becrypt from 'bcryptjs'
 import {SECRET_KEY} from './../config/constant'
 
 const documentName = 'User'
@@ -47,11 +48,29 @@ const schema = new Schema({
   }]
 })
 
+//middleware
+schema.pre('save', function(next) {
+  const user = this
+
+  if (!user.isModified('password')) {
+    next()
+  } else {
+    const {password} = user
+    becrypt.genSalt(10, (err, salt) => {
+      becrypt.hash(password, salt, (err, hash) => {
+        user.password = hash
+        next()
+      })
+    })
+  }
+})
+
+//override method
 schema.methods.toJSON = function() {
   const user = this
   const userObj = user.toObject()
 
-  return _.pick(userObj, ['_id', 'email'])
+  return _.pick(userObj, ['_id', 'email', 'password'])
 }
 
 schema.methods.generateAuthToken = function() {
