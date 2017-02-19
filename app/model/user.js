@@ -57,7 +57,7 @@ schema.methods.toJSON = function() {
 schema.methods.generateAuthToken = function() {
   const user = this
   const access = 'auth'
-  const token = jwt.sign({_id: user._id.toString(), access}, SECRET_KEY).toString()
+  const token = jwt.sign({_id: user._id.toHexString(), access}, SECRET_KEY).toString()
 
   user.tokens.push({access, token})
   return user.save()
