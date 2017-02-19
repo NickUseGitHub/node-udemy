@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import {ObjectID} from 'mongodb'
-import {User} from '../model'
+import {User} from './../model'
+import {authenticate} from './../middlewares/authenticate'
 
 const route = Router()
 
@@ -20,6 +21,10 @@ function validateUserIdMiddleWare(req, res, next) {
 
 //middlewares
 route.use(validateUserIdMiddleWare)
+
+route.get('/user/me', authenticate, (req, res) => {
+  res.json(req.user)
+})
 
 route.get('/user/:userId', (req, res) => {
   const {userId} = req.params
