@@ -5,8 +5,6 @@ import User from './../model/user'
 export function authenticate(req, res, next) {
   const token = req.header('app-auth')
 
-  console.log('------token------', token)
-
   User.findByToken(token)
     .then(user => {
       req.user = user
