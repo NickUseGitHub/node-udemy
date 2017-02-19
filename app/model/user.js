@@ -54,15 +54,15 @@ schema.pre('save', function(next) {
 
   if (!user.isModified('password')) {
     next()
-  } else {
-    const {password} = user
-    becrypt.genSalt(10, (err, salt) => {
-      becrypt.hash(password, salt, (err, hash) => {
-        user.password = hash
-        next()
-      })
-    })
   }
+
+  const {password} = user
+  becrypt.genSalt(10, (err, salt) => {
+    becrypt.hash(password, salt, (err, hash) => {
+      user.password = hash
+      next()
+    })
+  })
 })
 
 //override method
@@ -70,7 +70,7 @@ schema.methods.toJSON = function() {
   const user = this
   const userObj = user.toObject()
 
-  return _.pick(userObj, ['_id', 'email', 'password'])
+  return _.pick(userObj, ['_id', 'email'])
 }
 
 schema.methods.generateAuthToken = function() {
