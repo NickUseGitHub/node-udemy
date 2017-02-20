@@ -2,7 +2,9 @@ import requestSupertest from 'supertest'
 import expect from 'expect'
 import { ObjectID } from 'mongodb'
 import app from './../../server'
+import {HEADER_AUTH} from './../../config/constant'
 import {populateDatas, tempTodos} from './seed/todo'
+import {tempUsers} from './seed/user'
 import { Todo } from './../../model'
 
 beforeEach(populateDatas)
@@ -14,6 +16,7 @@ describe('----- Route:TODOS -----', () => {
 
       requestSupertest(app)
         .put('/todo')
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .send(todoInsert)
         .expect(200)
         .end((err, res) => {
@@ -37,6 +40,7 @@ describe('----- Route:TODOS -----', () => {
     it('PUT /todo -- should not insert when invalid todo', done => {
       requestSupertest(app)
         .put('/todo')
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .send({})
         .expect(400)
         .end((err, res) => {
@@ -54,6 +58,7 @@ describe('----- Route:TODOS -----', () => {
     it('GET /todo -- it should get all todos', done => {
       requestSupertest(app)
         .get('/todo')
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -73,6 +78,7 @@ describe('----- Route:TODOS -----', () => {
     it('GET /todo/todoId -- it should get data by id', done => {
       requestSupertest(app)
         .get(`/todo/${tempTodos[0]._id}`)
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -99,6 +105,7 @@ describe('----- Route:TODOS -----', () => {
 
       requestSupertest(app)
         .post(`/todo/${_id}`)
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .send({ todo: todoForUpdate })
         .expect(200)
         .end((err, res) => {
@@ -125,6 +132,7 @@ describe('----- Route:TODOS -----', () => {
 
       requestSupertest(app)
         .delete(`/todo/${_id}`)
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .expect(200)
         .end((err, res) => {
           if (err) {
@@ -149,6 +157,7 @@ describe('----- Route:TODOS -----', () => {
       const randId = 'wer32klae2qe'
       requestSupertest(app)
         .delete(`/todo/${randId}`)
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .send()
         .expect(400)
         .end((err, res) => {

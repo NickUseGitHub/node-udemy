@@ -99,7 +99,7 @@ schema.statics.findByToken = function(token) {
   let decode
 
   try {
-    decode = jwt.decode(token, 'key')
+    decode = jwt.decode(token, SECRET_KEY)
   } catch (e) {
     return new Promise.reject(e)
   }

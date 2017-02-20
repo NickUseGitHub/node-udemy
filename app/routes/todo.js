@@ -1,23 +1,24 @@
 import { Router } from 'express'
-import {Todo} from '../model'
 import { ObjectID } from 'mongodb'
+import {authenticate} from './../middlewares/authenticate'
+import {Todo} from './../model'
 
 const route = Router()
 
-route.get('/todo', (req, res) => {
+route.get('/todo', authenticate, (req, res) => {
   Todo.find()
     .then(todos => res.json({msg:'success', todos}))
     .catch(e => res.status(400).send(e))
 })
 
-route.get('/todo/:todoId', (req, res) => {
+route.get('/todo/:todoId', authenticate, (req, res) => {
   const {todoId} = req.params
   Todo.findById(todoId)
     .then(todo => res.json({msg: 'ok', todo}))
     .catch(e => res.status(400).send(e))
 })
 
-route.put('/todo', (req, res) => {
+route.put('/todo', authenticate, (req, res) => {
   const todo = new Todo(req.body)
 
   //save todo
@@ -32,7 +33,7 @@ route.put('/todo', (req, res) => {
 
 })
 
-route.post('/todo/:todoId', (req, res) => {
+route.post('/todo/:todoId', authenticate, (req, res) => {
   const reqTodo = req.body.todo
   const {todoId} = req.params
   Todo.update({_id:todoId}, reqTodo, (err, raw) => {
@@ -44,7 +45,7 @@ route.post('/todo/:todoId', (req, res) => {
   })
 })
 
-route.delete('/todo/:todoId', (req, res) => {
+route.delete('/todo/:todoId', authenticate, (req, res) => {
   const {todoId} = req.params
   
   if (!ObjectID.isValid(todoId)) {
