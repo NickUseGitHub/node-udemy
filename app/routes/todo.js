@@ -12,10 +12,21 @@ route.get('/todo', authenticate, (req, res) => {
 })
 
 route.get('/todo/:todoId', authenticate, (req, res) => {
+  const {user} = req
   const {todoId} = req.params
-  Todo.findById(todoId)
-    .then(todo => res.json({msg: 'ok', todo}))
-    .catch(e => res.status(400).send(e))
+
+  Todo.findOne({
+    _id: todoId,
+    _creator: user._id
+  })
+    .then(todo => {
+      if (!todo) {
+        res.status(404).send()
+      }
+
+      res.json({msg: 'ok', todo})
+    })
+    .catch(e => res.status(404).send(e))
 })
 
 route.put('/todo', authenticate, (req, res) => {

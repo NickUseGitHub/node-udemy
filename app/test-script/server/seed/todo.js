@@ -11,7 +11,7 @@ const tTodos = [
   {
     _id: new ObjectID(),
     detail: 'second todos',
-    _creator: tempUsers[0]._id
+    _creator: tempUsers[1]._id
   }
 ]
 

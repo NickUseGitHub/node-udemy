@@ -94,6 +94,14 @@ describe('----- Route:TODOS -----', () => {
             .catch(e => done(e))
         })
     })
+
+    it('GET /todo/todoId -- it should NOT get data by id', done => {
+      requestSupertest(app)
+        .get(`/todo/${tempTodos[0]._id}`)
+        .set(HEADER_AUTH, tempUsers[1].tokens[0].token)
+        .expect(404)
+        .end(done)
+    })
   })
 
   describe('-- Update --', () => {

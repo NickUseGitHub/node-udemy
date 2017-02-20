@@ -26,7 +26,11 @@ const tUsers = [
     password: 'IMkxin',
     email: 'dchavez1@tinypic.com',
     name: 'David',
-    lastname: 'Chavez'
+    lastname: 'Chavez',
+    tokens: [{
+      access: accessType,
+      token: jwt.sign({_id: _id2.toHexString(), accessType}, SECRET_KEY).toString()
+    }]
   }
 ]
 
