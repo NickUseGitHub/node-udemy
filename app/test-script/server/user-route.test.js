@@ -146,7 +146,12 @@ describe('----- Route:USER -----', () => {
           expect(user._id).toBe(tempUsers[0]._id.toHexString())
           expect(user.email).toBe(tempUsers[0].email)
 
-          done()
+          User.findOne({'email': user.email})
+            .then(us => {
+              expect(us.email).toEqual(user.email)
+              expect(us.password).toNotEqual(tempUsers[0].password)
+              done()
+            })
         })
     })
 
