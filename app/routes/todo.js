@@ -26,7 +26,7 @@ route.get('/todo/:todoId', authenticate, (req, res) => {
 
       res.json({msg: 'ok', todo})
     })
-    .catch(e => res.status(404).send(e))
+    .catch(e => res.status(400).send(e))
 })
 
 route.put('/todo', authenticate, (req, res) => {
