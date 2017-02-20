@@ -12,6 +12,11 @@ const tTodos = [
     _id: new ObjectID(),
     detail: 'second todos',
     _creator: tempUsers[1]._id
+  },
+  {
+    _id: new ObjectID(),
+    detail: 'third todos',
+    _creator: tempUsers[1]._id
   }
 ]
 

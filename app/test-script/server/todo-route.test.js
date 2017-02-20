@@ -154,9 +154,30 @@ describe('----- Route:TODOS -----', () => {
             .toEqual(todoForDelete._id)
 
           Todo.find().then(td => {
-            expect(td.length).toBe(1)
+            expect(td.length).toBe(2)
             done()
           })
+            .catch(e => done(e))
+        })
+    })
+
+    it('should delete all todos', done => {
+      requestSupertest(app)
+        .delete('/todo')
+        .set(HEADER_AUTH, tempUsers[1].tokens[0].token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          Todo.find()
+            .then(td => {
+              expect(td.length).toBe(1)
+              expect(td[0]._creator).toNotEqual(tempUsers[1]._id)
+              expect(td[0]._creator).toEqual(tempUsers[0]._id)
+              done()
+            })
             .catch(e => done(e))
         })
     })
