@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import {ObjectID} from 'mongodb'
+import _ from 'lodash'
 import {HEADER_AUTH} from './../config/constant'
 import {User} from './../model'
 import {authenticate} from './../middlewares/authenticate'
@@ -81,6 +82,19 @@ route.post('/user/:userId', (req, res) => {
 
     res.json({msg: 'success', user})
   })
+})
+
+route.delete('/user/me/token', authenticate, (req, res) => {
+  const token = req.header(HEADER_AUTH)
+  const user = req.user
+
+  user.tokens = _.differenceBy(user.tokens, [{token}], 'token')
+
+  user.save()
+    .then(us => {
+      res.send()
+    })
+    .catch(e => res.status(400).send(e))
 })
 
 route.delete('/user/:userId', (req, res) => {
