@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import {ObjectID} from 'mongodb'
 import {User} from './../../../model'
-import {SECRET_KEY} from './../../../config/constant'
+import {HEADER_AUTH, SECRET_KEY} from './../../../config/constant'
 
 const _id1 = new ObjectID()
 const _id2 = new ObjectID()
@@ -44,7 +44,9 @@ export const tempUsers = tUsers
 export function populateDatas(done) {
   User.remove({})
     .then(() => {
-      return User.insertMany(tUsers)
+      const userOne = new User(tUsers[0]).save()
+      const userTwo = new User(tUsers[1]).save()
+      return Promise.all([userOne, userTwo])
     })
     .then(() => done())
     .catch(e => console.log('beforeEach User -- ', err))

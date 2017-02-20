@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import {ObjectID} from 'mongodb'
+import {HEADER_AUTH} from './../config/constant'
 import {User} from './../model'
 import {authenticate} from './../middlewares/authenticate'
 
@@ -49,7 +50,7 @@ route.put('/user', (req, res) => {
       return us.generateAuthToken()
     })
     .then(token => {
-      res.header('app-auth', token)
+      res.header(HEADER_AUTH, token)
         .send(user)
     })
     .catch(e => res.status(400).send(e))
