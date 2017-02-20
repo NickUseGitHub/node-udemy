@@ -105,7 +105,7 @@ describe('----- Route:TODOS -----', () => {
   })
 
   describe('-- Update --', () => {
-    it('POST /todo -- it should update', done => {
+    it('should update', done => {
       const todoForUpdate = Object.assign({}, tempTodos[0])
       const {_id} = todoForUpdate
       delete (todoForUpdate._id)
@@ -130,6 +130,20 @@ describe('----- Route:TODOS -----', () => {
 
           done()
         })
+    })
+
+    it('should NOT update when not owned', done => {
+      const todoForUpdate = Object.assign({}, tempTodos[0])
+      const {_id} = todoForUpdate
+      delete (todoForUpdate._id)
+      todoForUpdate.detail = 'test new update'
+
+      requestSupertest(app)
+        .post(`/todo/${_id}`)
+        .set(HEADER_AUTH, tempUsers[1].tokens[0].token)
+        .send({ todo: todoForUpdate })
+        .expect(404)
+        .end(done)
     })
   })
 

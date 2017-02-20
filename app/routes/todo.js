@@ -58,10 +58,12 @@ route.post('/todo/:todoId', authenticate, (req, res) => {
   Todo.findOneAndUpdate({
     _id:todoId,
     _creator: user._id
-  }, reqTodo, (err, raw) => {
+  }, reqTodo, (err, td) => {
     if (err) {
       res.status(400).send(err)
-    } else {
+    } else if (!td) {
+      res.status(404).send()  
+    }else {
       res.json({msg:'success', todo: reqTodo})
     }
   })
