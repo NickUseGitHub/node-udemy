@@ -136,6 +136,7 @@ describe('----- Route:USER -----', () => {
         .post('/user/login')
         .send({email: tempUsers[0].email, password: tempUsers[0].password})
         .expect(200)
+        .expect(res => expect(res.headers[HEADER_AUTH]).toExist())
         .end((err, res) => {
           if (err) {
             return done(err)
