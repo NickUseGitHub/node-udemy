@@ -24,7 +24,7 @@ function validateUserIdMiddleWare(req, res, next) {
 route.use(validateUserIdMiddleWare)
 
 route.get('/user/me', authenticate, (req, res) => {
-  res.json(req.user)
+  res.json({msg: 'success', user: req.user})
 })
 
 route.get('/user/:userId', (req, res) => {

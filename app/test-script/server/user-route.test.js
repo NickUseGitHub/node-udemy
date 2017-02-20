@@ -3,6 +3,7 @@ import requestSupertest from 'supertest'
 import { ObjectID } from 'mongodb'
 import app from './../../server'
 import { User } from './../../model'
+import {HEADER_AUTH} from './../../config/constant'
 import {tempUsers, populateDatas, userForAdd} from './seed/user'
 
 const userForUpdate = Object.assign({}, tempUsers[0])
@@ -98,9 +99,26 @@ describe('----- Route:USER -----', () => {
               done()
             })
             .catch(e => done(e))
-
         })
     })
+
+    it('it should get user/me by header token', done => {
+      requestSupertest(app)
+        .get('/user/me')
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          expect(res.body)
+            .toContainKeys(['msg', 'user'])
+          
+          done()
+        })
+    })
+
   })
 
   describe('-- Update --', () => {
