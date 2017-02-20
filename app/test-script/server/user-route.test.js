@@ -119,6 +119,14 @@ describe('----- Route:USER -----', () => {
         })
     })
 
+    it('it should NOT get user/me by header token', done => {
+      requestSupertest(app)
+        .get('/user/me')
+        .set(HEADER_AUTH, tempUsers[0].tokens[0].token + '1')
+        .expect(401)
+        .end(done)
+    })
+
   })
 
   describe('-- Update --', () => {
