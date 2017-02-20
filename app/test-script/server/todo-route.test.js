@@ -10,7 +10,7 @@ beforeEach(populateDatas)
 describe('----- Route:TODOS -----', () => {
   describe('-- Insert --', () => {
     it('PUT /todo -- should insert todo in mongo', done => {
-      const todoInsert = { detail: 'Yo sarbbb' }
+      const todoInsert = Object.assign(tempTodos[0], {_id: new ObjectID(), detail: 'Yo sarbbb' })
 
       requestSupertest(app)
         .put('/todo')
@@ -23,10 +23,10 @@ describe('----- Route:TODOS -----', () => {
 
           expect(res.body).toBeA('object')
 
-          Todo.find({ detail: todoInsert.detail })
+          Todo.findOne({ _id: todoInsert._id })
             .then(td => {
-              expect(td.length).toBe(1)
-              expect(td[0].detail).toBe(todoInsert.detail)
+              expect(td).toExist()
+              expect(td.detail).toBe(todoInsert.detail)
               done()
             })
             .catch(e => done(e))

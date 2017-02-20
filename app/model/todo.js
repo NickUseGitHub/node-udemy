@@ -14,6 +14,10 @@ const schema = new Schema({
   createDate: {
     type: Date,
     default: Date.now
+  },
+  _creator: {
+    type: mongoose.SchemaTypes.ObjectId,
+    required: true
   }
 })
 
