@@ -6,7 +6,11 @@ import {Todo} from './../model'
 const route = Router()
 
 route.get('/todo', authenticate, (req, res) => {
-  Todo.find()
+  const user = req.user
+
+  Todo.find({
+    _creator: user._id
+  })
     .then(todos => res.json({msg:'success', todos}))
     .catch(e => res.status(400).send(e))
 })
@@ -47,13 +51,18 @@ route.put('/todo', authenticate, (req, res) => {
 })
 
 route.post('/todo/:todoId', authenticate, (req, res) => {
+  const user = req.user
   const reqTodo = req.body.todo
   const {todoId} = req.params
-  Todo.update({_id:todoId}, reqTodo, (err, raw) => {
+
+  Todo.findOneAndUpdate({
+    _id:todoId,
+    _creator: user._id
+  }, reqTodo, (err, raw) => {
     if (err) {
       res.status(400).send(err)
     } else {
-      res.json({msg:'sucess', todo: reqTodo})
+      res.json({msg:'success', todo: reqTodo})
     }
   })
 })
@@ -75,6 +84,14 @@ route.delete('/todo/:todoId', authenticate, (req, res) => {
       res.json({msg: 'success', todo})
     }
   })
+})
+
+route.delete('/todo', authenticate, (req, res) => {
+  const user = req.user
+
+  Todo.remove({
+    _creator: user._id
+  }).then(() => res.json({msg: 'success'}))
 })
 
 export default route
