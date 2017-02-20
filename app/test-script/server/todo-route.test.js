@@ -134,7 +134,7 @@ describe('----- Route:TODOS -----', () => {
   })
 
   describe('-- Delete --', () => {
-    it('DELETE /todo -- it should update', done => {
+    it('should delete', done => {
       const todoForDelete = Object.assign({}, tempTodos[0])
       const {_id} = todoForDelete
 
@@ -161,7 +161,18 @@ describe('----- Route:TODOS -----', () => {
         })
     })
 
-    it('DELETE /todo -- it should NOT be delete', done => {
+    it('should delete when not owned todo', done => {
+      const todoForDelete = Object.assign({}, tempTodos[0])
+      const {_id} = todoForDelete
+
+      requestSupertest(app)
+        .delete(`/todo/${_id}`)
+        .set(HEADER_AUTH, tempUsers[1].tokens[0].token)
+        .expect(400)
+        .end(done)
+    })
+
+    it('it should NOT be delete with randomID', done => {
       const randId = 'wer32klae2qe'
       requestSupertest(app)
         .delete(`/todo/${randId}`)

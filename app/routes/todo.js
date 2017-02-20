@@ -59,13 +59,14 @@ route.post('/todo/:todoId', authenticate, (req, res) => {
 })
 
 route.delete('/todo/:todoId', authenticate, (req, res) => {
+  const {user} = req
   const {todoId} = req.params
   
   if (!ObjectID.isValid(todoId)) {
     res.status(400).send('This Id is not valid.')
   }
 
-  Todo.findOneAndRemove({_id: todoId}, (err, todo) => {
+  Todo.findOneAndRemove({_id: todoId, _creator: user._id}, (err, todo) => {
     if (err) {
       res.status(400).send(err)
     }else if (!todo) {
