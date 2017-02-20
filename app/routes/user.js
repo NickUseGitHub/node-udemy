@@ -62,8 +62,11 @@ route.post('/user/login', (req, res) => {
   User.findByCredentials(email, password)
     .then(user => {
       return user.generateAuthToken()
+        .then(token => {
+          res.set(HEADER_AUTH, token)
+            .json({msg: 'success', user})
+        })
     })
-    .then(token => res.json({msg: 'success', token}))
     .catch(e => res.status(400).send(e))
 })
 
