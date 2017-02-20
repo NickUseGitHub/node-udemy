@@ -1,28 +1,11 @@
 import requestSupertest from 'supertest'
-import app from './../../server'
 import expect from 'expect'
 import { ObjectID } from 'mongodb'
+import app from './../../server'
+import {populateDatas, tempTodos} from './seed/todo'
 import { Todo } from './../../model'
 
-const tempTodos = [
-  {
-    _id: new ObjectID(),
-    detail: 'first todos'
-  },
-  {
-    _id: new ObjectID(),
-    detail: 'second todos'
-  }
-]
-
-beforeEach(done => {
-  Todo.remove({})
-    .then(() => {
-      return Todo.insertMany(tempTodos)
-    })
-    .then(() => done())
-    .catch(err => console.log('beforeEach Todo -- ', err))
-})
+beforeEach(populateDatas)
 
 describe('----- Route:TODOS -----', () => {
   describe('-- Insert --', () => {
