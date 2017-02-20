@@ -70,8 +70,7 @@ route.delete('/todo/:todoId', authenticate, (req, res) => {
     if (err) {
       res.status(400).send(err)
     }else if (!todo) {
-      res.status(400).send('This Id is not valid.')
-
+      res.status(404).send('This Id is not valid.')
     }else {
       res.json({msg: 'success', todo})
     }

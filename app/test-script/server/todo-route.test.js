@@ -168,7 +168,7 @@ describe('----- Route:TODOS -----', () => {
       requestSupertest(app)
         .delete(`/todo/${_id}`)
         .set(HEADER_AUTH, tempUsers[1].tokens[0].token)
-        .expect(400)
+        .expect(404)
         .end(done)
     })
 
@@ -178,7 +178,7 @@ describe('----- Route:TODOS -----', () => {
         .delete(`/todo/${randId}`)
         .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
         .send()
-        .expect(400)
+        .expect(404)
         .end((err, res) => {
           if (err) {
             return done(err)
