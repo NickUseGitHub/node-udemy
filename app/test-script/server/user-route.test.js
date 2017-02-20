@@ -222,6 +222,26 @@ describe('----- Route:USER -----', () => {
 
         })
     })
+    it('should logout', done => {
+      const token = tempUsers[0].tokens[0].token
+
+      requestSupertest(app)
+        .delete('/user/me/token')
+        .set(HEADER_AUTH, token)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            return done(err)
+          }
+
+          User.findOne({ 'tokens.token': token })
+            .then(us => {
+              expect(us).toNotExist()
+              done()
+            })
+            .catch(e => done(e))
+        })
+    })
   })
 
 })
