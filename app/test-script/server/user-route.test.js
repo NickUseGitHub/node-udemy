@@ -152,6 +152,7 @@ describe('----- Route:USER -----', () => {
               expect(us.password).toNotEqual(tempUsers[0].password)
               done()
             })
+            .catch(e => done(e))
         })
     })
 
