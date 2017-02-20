@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import {HEADER_AUTH, SECRET_KEY} from './../config/constant'
+import {HEADER_AUTH} from './../config/constant'
 import User from './../model/user'
 
 export function authenticate(req, res, next) {

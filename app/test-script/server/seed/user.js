@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import {ObjectID} from 'mongodb'
 import {User} from './../../../model'
-import {HEADER_AUTH, SECRET_KEY} from './../../../config/constant'
+import {HEADER_AUTH} from './../../../config/constant'
 
 const _id1 = new ObjectID()
 const _id2 = new ObjectID()
@@ -17,7 +17,7 @@ const tUsers = [
     lastname: 'Nichols',
     tokens: [{
       access: accessType,
-      token: jwt.sign({_id: _id1.toHexString(), accessType}, SECRET_KEY).toString()
+      token: jwt.sign({_id: _id1.toHexString(), accessType}, process.env.SECRET_KEY).toString()
     }]
   },
   {
@@ -29,7 +29,7 @@ const tUsers = [
     lastname: 'Chavez',
     tokens: [{
       access: accessType,
-      token: jwt.sign({_id: _id2.toHexString(), accessType}, SECRET_KEY).toString()
+      token: jwt.sign({_id: _id2.toHexString(), accessType}, process.env.SECRET_KEY).toString()
     }]
   }
 ]

@@ -8,6 +8,8 @@ switch(process.env.NODE_ENV) {
   case 'development':
     dotenv.load({ path: path.resolve(__dirname, './.env.dev.app') })
     break
+  default:
+    dotenv.load({ path: path.resolve(__dirname, './.env.app') })
 }
 
 console.log('************************************************')

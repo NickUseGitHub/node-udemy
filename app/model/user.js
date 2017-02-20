@@ -3,7 +3,6 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 import bcrypt from 'bcryptjs'
-import {SECRET_KEY} from './../config/constant'
 
 const documentName = 'User'
 const schema = new Schema({
@@ -76,7 +75,7 @@ schema.methods.toJSON = function() {
 schema.methods.generateAuthToken = function() {
   const user = this
   const access = 'auth'
-  const token = jwt.sign({_id: user._id.toHexString(), access}, SECRET_KEY).toString()
+  const token = jwt.sign({_id: user._id.toHexString(), access}, process.env.SECRET_KEY).toString()
 
   user.tokens.push({access, token})
   return user.save()
@@ -99,7 +98,7 @@ schema.statics.findByToken = function(token) {
   let decode
 
   try {
-    decode = jwt.decode(token, SECRET_KEY)
+    decode = jwt.decode(token, process.env.SECRET_KEY)
   } catch (e) {
     return new Promise.reject(e)
   }
