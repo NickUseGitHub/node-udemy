@@ -89,7 +89,9 @@ schema.methods.removeToken = function(token) {
   const user = this
 
   user.tokens = _.differenceBy(user.tokens, [{token}], 'token')
-  return user.save()
+  return user.update({
+    $pull: {tokens: {token}}
+  })
 }
 
 schema.statics.findByToken = function(token) {
