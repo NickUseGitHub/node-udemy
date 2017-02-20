@@ -115,6 +115,10 @@ describe('----- Route:USER -----', () => {
           expect(res.body)
             .toContainKeys(['msg', 'user'])
           
+          const {_id, email} = res.body.user
+          expect(_id).toBe(tempUsers[0]._id.toHexString())
+          expect(email).toBe(tempUsers[0].email)
+
           done()
         })
     })
