@@ -19,7 +19,9 @@ route.get('/todo/:todoId', authenticate, (req, res) => {
 })
 
 route.put('/todo', authenticate, (req, res) => {
-  const todo = new Todo(req.body)
+  const {user} = req
+  const todoForInsert = Object.assign({}, req.body, {_creator: user._id})
+  const todo = new Todo(todoForInsert)
 
   //save todo
   todo.save((err, td) => {
