@@ -37,7 +37,7 @@ describe('----- Route:USER -----', () => {
             .catch(e => done(e))
         })
     })
-    it('it should not insert invalid email', done => {
+    it('should not insert invalid email', done => {
       const userInvalidForAdd = Object.assign({}, userForAdd, {email: 'adsfdasfas'})
       
       requestSupertest(app)
@@ -56,7 +56,7 @@ describe('----- Route:USER -----', () => {
   })
 
   describe('-- Fetch --', done => {
-    it('it should get all users', done => {
+    it('should get all users', done => {
       requestSupertest(app)
         .get('/user')
         .expect(200)
@@ -75,7 +75,7 @@ describe('----- Route:USER -----', () => {
         })
     })
 
-    it('it should get user by id', done => {
+    it('should get user by id', done => {
       requestSupertest(app)
         .get(`/user/${tempUsers[0]._id}`)
         .expect(200)
@@ -102,7 +102,7 @@ describe('----- Route:USER -----', () => {
         })
     })
 
-    it('it should get user/me by header token', done => {
+    it('should get user/me by header token', done => {
       requestSupertest(app)
         .get('/user/me')
         .set(HEADER_AUTH, tempUsers[0].tokens[0].token)
@@ -123,7 +123,7 @@ describe('----- Route:USER -----', () => {
         })
     })
 
-    it('it should NOT get user/me by header token', done => {
+    it('should NOT get user/me by header token', done => {
       requestSupertest(app)
         .get('/user/me')
         .set(HEADER_AUTH, tempUsers[0].tokens[0].token + '1')
@@ -135,7 +135,7 @@ describe('----- Route:USER -----', () => {
 
   describe('-- Update --', () => {
 
-    it('it should update user', done => {
+    it('should update user', done => {
       requestSupertest(app)
         .post(`/user/${userForUpdate._id}`)
         .send({user: userForUpdate})
@@ -164,7 +164,7 @@ describe('----- Route:USER -----', () => {
   })
 
   describe('-- Delete --', done => {
-    it('it should delete user', done => {
+    it('should delete user', done => {
       requestSupertest(app)
         .delete(`/user/${tempUsers[0]._id}`)
         .expect(200)
