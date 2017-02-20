@@ -2,7 +2,7 @@ import mongoose, {Schema} from 'mongoose'
 import validator from 'validator'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
-import becrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs'
 import {SECRET_KEY} from './../config/constant'
 
 const documentName = 'User'
@@ -57,8 +57,8 @@ schema.pre('save', function(next) {
   }
 
   const {password} = user
-  becrypt.genSalt(10, (err, salt) => {
-    becrypt.hash(password, salt, (err, hash) => {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hash) => {
       user.password = hash
       next()
     })
@@ -100,6 +100,32 @@ schema.statics.findByToken = function(token) {
     'tokens.access': 'auth',
     'tokens.token': token
   })
+}
+
+schema.statics.findByCredentials = function(email, password) {
+  const User = this
+  const returnMsgErr = 'Email or password are invalid'
+
+  return User.findOne({email})
+    .then(user => {
+      if (!user) {
+        return Promise.reject(returnMsgErr)
+      }
+
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (err) {
+            reject(err)
+          }
+
+          if (!res) {
+            reject(returnMsgErr)
+          }
+
+          resolve(user)
+        })
+      })
+    })
 }
 
 export default mongoose.model(documentName, schema)

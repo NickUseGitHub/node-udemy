@@ -53,6 +53,17 @@ route.put('/user', (req, res) => {
       res.header(HEADER_AUTH, token)
         .send(user)
     })
+    .catch(e => res.status(400).send('This email or username is invalid.'))
+})
+
+route.post('/user/login', (req, res) => {
+  const {email, password} = req.body
+
+  User.findByCredentials(email, password)
+    .then(user => {
+      return user.generateAuthToken()
+    })
+    .then(token => res.json({msg: 'success', token}))
     .catch(e => res.status(400).send(e))
 })
 
