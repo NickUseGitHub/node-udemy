@@ -1,24 +1,21 @@
-const testPort = 3002
-      ,devPort = 3002
-      ,dbPort = 27017
-      ,dbName = 'nodeUdemy'
-      ,dbNameTest = 'nodeUdemyTest'
+import dotenv from 'dotenv'
+import path from 'path'
+
+switch(process.env.NODE_ENV) {
+  case 'test':
+    dotenv.load({ path: path.resolve(__dirname, './.env.test.app') })
+    break
+  case 'development':
+    dotenv.load({ path: path.resolve(__dirname, './.env.dev.app') })
+    break
+  default:
+    dotenv.load({ path: path.resolve(__dirname, './.env.app') })
+}
 
 console.log('************************************************')
 console.log('*')
 console.log(`**  server : ${process.env.NODE_ENV}`)
+console.log(`**  port : ${process.env.PORT}`)
+console.log(`**  mongodb_uri : ${process.env.MONGODB_URI}`)
 console.log('*')
 console.log('************************************************')
-
-switch(process.env.NODE_ENV) {
-  case 'test':
-    process.env.PORT = testPort
-    process.env.MONGODB_URI = `mongodb://mongo:${dbPort}/${dbNameTest}`
-    break
-  case 'development':
-    process.env.PORT = devPort
-    process.env.MONGODB_URI = `mongodb://mongo:${dbPort}/${dbName}`
-    break
-  default:
-    process.env.MONGODB_URI = 'mongodb://mongoAd:mongoPs@ds153659.mlab.com:53659/heroku_bjzk3v04'
-}
